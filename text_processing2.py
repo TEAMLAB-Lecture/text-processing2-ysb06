@@ -2,6 +2,7 @@
 # Test Processing II  #
 #######################
 
+digit_def = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 
 def digits_to_words(input_string):
     """
@@ -28,9 +29,16 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
-    return digit_string
+    global digit_def
+    digit_string = ''
 
+    for character in input_string:
+        number = ord(character) - 48
+        if number >= 0 and number <= 9:
+            digit_string += digit_def[number] + ' '
+
+    # print(digit_string[0:-1])
+    return digit_string[0:-1]
 
 """
 컴퓨터 프로그래밍에 많은 명명 규칙이 있지만, 두 규칙이 특히 흔히 쓰입니다. 
@@ -64,5 +72,30 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    camelcase_str = ''
+    temp = underscore_str.split('_')
+    temp2 = []
+    for word in temp:
+        cursor = 0
+        if not word.isupper():
+            for index, letter in enumerate(word):
+                if letter.isupper():
+                    temp2.append(word[cursor:index])
+                    cursor = index
+            temp2.append(word[cursor:])
+        else:
+            temp2.append(word)
+
+    isFirstWord = True
+    for word in temp2:
+        if word == '':
+            continue
+
+        if isFirstWord:
+            camelcase_str += word.lower()
+            isFirstWord = False
+        else:
+            camelcase_str += word.title()
+
+    # print(f'{underscore_str:20} ==> {camelcase_str}')
     return camelcase_str
